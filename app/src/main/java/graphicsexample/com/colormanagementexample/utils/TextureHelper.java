@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ColorSpace;
+import android.graphics.ColorSpace.Named;
 import android.graphics.ImageDecoder;
 import android.opengl.GLES20;
 import android.opengl.GLES31;
@@ -36,9 +37,11 @@ public class TextureHelper {
                     public void onHeaderDecoded(ImageDecoder imageDecoder,
                                                 ImageDecoder.ImageInfo imageInfo,
                                                 ImageDecoder.Source source) {
+                        /*
                         if (Build.VERSION.SDK_INT >= 28) {
                             imageDecoder.setTargetColorSpace(ColorSpace.get(ColorSpace.Named.SRGB));
                         }
+                        */
                     }
                 });
             } catch (IOException e) {
@@ -48,7 +51,7 @@ public class TextureHelper {
         } else {
             final BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = false;
-            options.inPreferredColorSpace = ColorSpace.get(ColorSpace.Named.SRGB);
+            options.inPreferredColorSpace = ColorSpace.get(Named.DISPLAY_P3);
             bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
         }
 
@@ -63,8 +66,9 @@ public class TextureHelper {
                 GLES20.GL_LINEAR_MIPMAP_LINEAR);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER,
                 GLES20.GL_LINEAR);
-        // GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
         // GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, bitmap, 0);
+
+        /*
         byte[] buffer = new byte[bitmap.getWidth() * bitmap.getHeight() * 4];
         for (int y = 0; y < bitmap.getHeight(); y++) {
             for (int x = 0; x < bitmap.getWidth(); x++) {
@@ -78,7 +82,21 @@ public class TextureHelper {
 
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(bitmap.getWidth() * bitmap.getHeight() * 4);
         byteBuffer.put(buffer).position(0);
-        GLES31.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES31.GL_SRGB8_ALPHA8, bitmap.getWidth(), bitmap.getHeight(), 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, byteBuffer);
+        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES31.GL_SRGB8_ALPHA8, bitmap.getWidth(), bitmap.getHeight(), 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, byteBuffer);
+        */
+        GLES31.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES31.GL_SRGB8_ALPHA8,
+            bitmap.getWidth(), bitmap.getHeight(), 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
+        int error = GLES31.glGetError();
+        if (error != 0) {
+            Log.e(TAG, "HAHA 22 " + error);
+        }
+        GLUtils.texSubImage2D(GLES20.GL_TEXTURE_2D, 0, 0, 0, bitmap, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE);
+        error = GLES31.glGetError();
+        if (error != 0) {
+            Log.e(TAG, "HAHA 33 " + error);
+        }
+
+        // GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, bitmap, 0);
         bitmap.recycle();
         GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);

@@ -24,7 +24,7 @@ public class CMEGLWindowSurfaceFactory implements GLSurfaceView.EGLWindowSurface
                                           EGLConfig config, Object nativeWindow) {
         EGLSurface result = null;
         try {
-            int attribs[] = {EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_SRGB_KHR, egl.EGL_NONE};
+            int attribs[] = {EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_DISPLAY_P3_EXT, egl.EGL_NONE};
             result = egl.eglCreateWindowSurface(display, config, nativeWindow, attribs);
         } catch (IllegalArgumentException e) {
             Log.e(TAG, "eglCreateWindowSurface", e);
