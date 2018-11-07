@@ -28,7 +28,7 @@ public class TextureHelper {
         }
         Bitmap bitmap = null;
 
-        if (Build.VERSION.SDK_INT >= 29) {
+        if (Build.VERSION.SDK_INT >= 28) {
             Log.e(TAG, "Use ImageDecoder API");
             ImageDecoder.Source source = ImageDecoder.createSource(context.getResources(), resourceId);
             try {
@@ -37,11 +37,9 @@ public class TextureHelper {
                     public void onHeaderDecoded(ImageDecoder imageDecoder,
                                                 ImageDecoder.ImageInfo imageInfo,
                                                 ImageDecoder.Source source) {
-                        /*
                         if (Build.VERSION.SDK_INT >= 28) {
-                            imageDecoder.setTargetColorSpace(ColorSpace.get(ColorSpace.Named.SRGB));
+                            imageDecoder.setTargetColorSpace(ColorSpace.get(Named.DISPLAY_P3));
                         }
-                        */
                     }
                 });
             } catch (IOException e) {
