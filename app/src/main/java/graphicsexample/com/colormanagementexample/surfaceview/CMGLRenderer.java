@@ -1,4 +1,4 @@
-package graphicsexample.com.colormanagementexample;
+package graphicsexample.com.colormanagementexample.surfaceview;
 
 import android.content.Context;
 import android.graphics.ColorSpace;
@@ -12,6 +12,7 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import graphicsexample.com.colormanagementexample.R;
 import graphicsexample.com.colormanagementexample.utils.ShaderHelper;
 import graphicsexample.com.colormanagementexample.utils.ShaderSourceReader;
 import graphicsexample.com.colormanagementexample.utils.TextureHelper;
@@ -81,7 +82,7 @@ public class CMGLRenderer implements GLSurfaceView.Renderer {
         aPositionLocation = GLES20.glGetAttribLocation(program, A_POSITION);
         aTextureCoordinatesLocation = GLES20.glGetAttribLocation(program, A_TEXTURE_COORDINATES);
 
-        texture = TextureHelper.loadTexture(context, R.drawable.test);
+        texture = TextureHelper.loadTexture(context, R.drawable.android_p3);
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {

@@ -1,7 +1,11 @@
-package graphicsexample.com.colormanagementexample;
+package graphicsexample.com.colormanagementexample.surfaceview;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+
+import graphicsexample.com.colormanagementexample.CMEGLWindowSurfaceFactory;
+import graphicsexample.com.colormanagementexample.CMEglConfigChooser;
+import graphicsexample.com.colormanagementexample.surfaceview.CMGLRenderer;
 
 public class CMGLSurfaceView extends GLSurfaceView {
 

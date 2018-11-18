@@ -1,4 +1,4 @@
-package graphicsexample.com.colormanagementexample;
+package graphicsexample.com.colormanagementexample.surfaceview;
 
 import android.opengl.GLES20;
 

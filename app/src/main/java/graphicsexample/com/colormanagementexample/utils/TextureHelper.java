@@ -3,6 +3,7 @@ package graphicsexample.com.colormanagementexample.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.graphics.ColorSpace.Named;
 import android.graphics.ImageDecoder;
@@ -18,7 +19,6 @@ import java.nio.IntBuffer;
 
 public class TextureHelper {
     private static final String TAG = "TextureHelper";
-    private static final int GL_SRGB8_ALPHA8 = 0x8C43;
 
     public static int loadTexture(Context context, int resourceId) {
         final int[] textureObjectIds = new int[1];
@@ -38,7 +38,9 @@ public class TextureHelper {
                                                 ImageDecoder.ImageInfo imageInfo,
                                                 ImageDecoder.Source source) {
                         if (Build.VERSION.SDK_INT >= 28) {
+                            Log.e(TAG, "Image color space: " + imageInfo.getColorSpace().getName());
                             imageDecoder.setTargetColorSpace(ColorSpace.get(Named.DISPLAY_P3));
+                            imageDecoder.setMutableRequired(true);
                         }
                     }
                 });
@@ -59,39 +61,29 @@ public class TextureHelper {
             return 0;
         }
         Log.e(TAG, "bitmap color space " + bitmap.getColorSpace() + " " + bitmap.getConfig());
+        {
+            int color = bitmap.getPixel(5, 5);
+            int red = Color.red(color);
+            int green = Color.green(color);
+            int blue = Color.blue(color);
+            Log.e(TAG, "DDEBUG color: (" + red + ", " + green + ", " + blue + ")");
+        }
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureObjectIds[0]);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER,
                 GLES20.GL_LINEAR_MIPMAP_LINEAR);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER,
                 GLES20.GL_LINEAR);
-        // GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, bitmap, 0);
-
-        /*
-        byte[] buffer = new byte[bitmap.getWidth() * bitmap.getHeight() * 4];
-        for (int y = 0; y < bitmap.getHeight(); y++) {
-            for (int x = 0; x < bitmap.getWidth(); x++) {
-                int pixel = bitmap.getPixel(x, y);
-                buffer[(y * bitmap.getWidth() + x) * 4 + 0] = (byte) ((pixel >> 16) & 0xFF);
-                buffer[(y * bitmap.getWidth() + x) * 4 + 1] = (byte) ((pixel >> 8) & 0xFF);
-                buffer[(y * bitmap.getWidth() + x) * 4 + 2] = (byte) ((pixel >> 0) & 0xFF);
-                buffer[(y * bitmap.getWidth() + x) * 4 + 3] = (byte) ((pixel >> 24) & 0xFF);
-            }
-        }
-
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(bitmap.getWidth() * bitmap.getHeight() * 4);
-        byteBuffer.put(buffer).position(0);
-        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES31.GL_SRGB8_ALPHA8, bitmap.getWidth(), bitmap.getHeight(), 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, byteBuffer);
-        */
         GLES31.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES31.GL_SRGB8_ALPHA8,
             bitmap.getWidth(), bitmap.getHeight(), 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
         int error = GLES31.glGetError();
         if (error != 0) {
-            Log.e(TAG, "HAHA 22 " + error);
+            Log.e(TAG, "SOMETHING IS WRONG with glTexImage2D " + error);
         }
-        GLUtils.texSubImage2D(GLES20.GL_TEXTURE_2D, 0, 0, 0, bitmap, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE);
+        GLUtils.texSubImage2D(GLES20.GL_TEXTURE_2D, 0, 0, 0, bitmap,
+                GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE);
         error = GLES31.glGetError();
         if (error != 0) {
-            Log.e(TAG, "HAHA 33 " + error);
+            Log.e(TAG, "SOMETHING IS WRONG with GLUtils.texSubImage2D " + error);
         }
 
         // GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, bitmap, 0);
