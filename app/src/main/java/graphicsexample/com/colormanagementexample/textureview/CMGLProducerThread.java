@@ -14,7 +14,8 @@ import javax.microedition.khronos.opengles.GL;
 
 public class CMGLProducerThread extends Thread {
     private static final int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
-    private static final int EGL_OPENGL_ES2_BIT = 4;
+    private static final int EGL_OPENGL_ES2_BIT = 0x0004;
+    private static final int EGL_OPENGL_ES3_BIT_KHR = 0x0040;
     private static final int EGL_GL_COLORSPACE_KHR = 0x309D;
     private static final int EGL_GL_COLORSPACE_SRGB_KHR = 0x3089;
     private static final int EGL_GL_COLORSPACE_LINEAR_KHR = 0x308A;
@@ -64,7 +65,7 @@ public class CMGLProducerThread extends Thread {
                 EGL10.EGL_BLUE_SIZE, 8,
                 EGL10.EGL_GREEN_SIZE, 8,
                 EGL10.EGL_RED_SIZE, 8,
-                EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+                EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT_KHR,
                 EGL10.EGL_SURFACE_TYPE, EGL10.EGL_WINDOW_BIT,
                 EGL10.EGL_NONE
         };
