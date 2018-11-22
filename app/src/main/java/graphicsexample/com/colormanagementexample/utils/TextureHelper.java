@@ -73,8 +73,8 @@ public class TextureHelper {
                 GLES20.GL_LINEAR_MIPMAP_LINEAR);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER,
                 GLES20.GL_LINEAR);
-        GLES31.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES31.GL_SRGB8_ALPHA8,
-            bitmap.getWidth(), bitmap.getHeight(), 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
+        GLES31.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES31.GL_RGBA,
+                bitmap.getWidth(), bitmap.getHeight(), 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
         int error = GLES31.glGetError();
         if (error != 0) {
             Log.e(TAG, "SOMETHING IS WRONG with glTexImage2D " + error);

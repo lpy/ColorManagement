@@ -84,7 +84,7 @@ public class CMGLProducerThread extends Thread {
         mEglContext = mEgl.eglCreateContext(mEglDisplay, configs[0], EGL10.EGL_NO_CONTEXT, contextAttribs);
 
         int surfaceAttribs[] = {
-                EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_DISPLAY_P3_EXT,
+                EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_DISPLAY_P3_LINEAR_EXT,
                 EGL10.EGL_NONE
         };
 
