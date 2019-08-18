@@ -15,6 +15,7 @@ public class CMEGLWindowSurfaceFactory implements GLSurfaceView.EGLWindowSurface
     private static final int EGL_GL_COLORSPACE_SRGB_KHR = 0x3089;
     private static final int EGL_GL_COLORSPACE_LINEAR_KHR = 0x308A;
     private static final int EGL_GL_COLORSPACE_DISPLAY_P3_EXT = 0x3363;
+    private static final int EGL_GL_COLORSPACE_DISPLAY_P3_PASSTHROUGH_EXT = 0x3490;
 
     public CMEGLWindowSurfaceFactory() {
         super();
@@ -25,7 +26,7 @@ public class CMEGLWindowSurfaceFactory implements GLSurfaceView.EGLWindowSurface
         EGLSurface result = null;
         try {
             int attribs[] = {
-                    EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_DISPLAY_P3_EXT,
+                    EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_DISPLAY_P3_PASSTHROUGH_EXT,
                     egl.EGL_NONE
             };
             result = egl.eglCreateWindowSurface(display, config, nativeWindow, attribs);

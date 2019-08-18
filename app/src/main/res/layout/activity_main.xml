@@ -5,5 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
+  <Button
+      android:id="@+id/button5"
+      android:layout_width="193dp"
+      android:layout_height="125dp"
+      android:onClick="changeColorMode"
+      android:text="toggle color mode"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:layout_editor_absoluteX="109dp"/>
+  <ImageView
+      android:id="@+id/imageView"
+      android:layout_width="272dp"
+      android:layout_height="337dp"
+      android:layout_marginTop="80dp"
+      android:src="@drawable/android_p3"
+      app:layout_constraintTop_toBottomOf="@+id/button5"
+      tools:layout_editor_absoluteX="69dp"/>
 </android.support.constraint.ConstraintLayout>

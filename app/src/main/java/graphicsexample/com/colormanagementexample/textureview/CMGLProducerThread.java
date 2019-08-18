@@ -1,8 +1,10 @@
 package graphicsexample.com.colormanagementexample.textureview;
 
 import android.graphics.SurfaceTexture;
+import android.opengl.GLES30;
 import android.opengl.GLUtils;
 
+import android.util.Log;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.microedition.khronos.egl.EGL10;
@@ -21,6 +23,7 @@ public class CMGLProducerThread extends Thread {
     private static final int EGL_GL_COLORSPACE_LINEAR_KHR = 0x308A;
     private static final int EGL_GL_COLORSPACE_DISPLAY_P3_EXT = 0x3363;
     private static final int EGL_GL_COLORSPACE_DISPLAY_P3_LINEAR_EXT = 0x3362;
+    private static final int EGL_GL_COLORSPACE_DISPLAY_P3_PASSTHROUGH_EXT = 0x3490;
     private static String TAG = "CMGLProducerThread";
 
     private AtomicBoolean mShouldRender;
@@ -84,7 +87,7 @@ public class CMGLProducerThread extends Thread {
         mEglContext = mEgl.eglCreateContext(mEglDisplay, configs[0], EGL10.EGL_NO_CONTEXT, contextAttribs);
 
         int surfaceAttribs[] = {
-                EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_DISPLAY_P3_LINEAR_EXT,
+                EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_DISPLAY_P3_PASSTHROUGH_EXT,
                 EGL10.EGL_NONE
         };
 

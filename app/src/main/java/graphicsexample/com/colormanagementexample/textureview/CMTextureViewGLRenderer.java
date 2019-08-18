@@ -62,8 +62,6 @@ public class CMTextureViewGLRenderer implements CMGLProducerThread.GLRenderer {
         int loc = GLES20.glGetUniformLocation(mProgramObject, "u_Texture");
         GLES20.glUniform1f(loc, 0);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
-
-        Log.i("GLRendererImpl", "drawing..." + mWidth);
     }
 
     public void setViewport(int width, int height) {
@@ -83,7 +81,7 @@ public class CMTextureViewGLRenderer implements CMGLProducerThread.GLRenderer {
     }
 
     private void loadTexture() {
-        mTexID = TextureHelper.loadTexture(mContext, R.drawable.test);
+        mTexID = TextureHelper.loadTexture(mContext, R.drawable.android_p3);
     }
 
     private int loadShader(int shaderType, String shaderSource) {

@@ -5,6 +5,7 @@ import android.graphics.ColorSpace;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
+import android.util.Log;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -30,13 +31,13 @@ public class CMGLRenderer implements GLSurfaceView.Renderer {
     private static final int TEXTURE_COORDINATES_COMPONENT_COUNT = 2;
     private static final int STRIDE = (POSITION_COMPONENT_COUNT + TEXTURE_COORDINATES_COMPONENT_COUNT) * BYTES_PER_FLOAT;
     private static final float[] VERTEX_DATA = {
-            // (x, y, s, t)
-            0f, 0f, 0.5f, 0.5f,
-            -0.8f, -0.8f, 0f, 1.0f,
-            0.8f, -0.8f, 1f, 1.0f,
-            0.8f, 0.8f, 1f, 0.0f,
-            -0.8f, 0.8f, 0f, 0.0f,
-            -0.8f, -0.8f, 0f, 1.0f,
+        // (x, y, s, t)
+        0f, 0f, 0.5f, 0.5f,
+        -0.8f, -0.6f, 0f, 1.0f,
+        0.8f, -0.6f, 1f, 1.0f,
+        0.8f, 0.6f, 1f, 0.0f,
+        -0.8f, 0.6f, 0f, 0.0f,
+        -0.8f, -0.6f, 0f, 1.0f,
     };
 
     private static final String U_MATRIX = "u_Matrix";
@@ -66,12 +67,10 @@ public class CMGLRenderer implements GLSurfaceView.Renderer {
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
                 .put(VERTEX_DATA);
-
-
     }
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         program = ShaderHelper.buildProgram(ShaderSourceReader.readShaderFromSource(context, R.raw.vertex_shader),
                 ShaderSourceReader.readShaderFromSource(context, R.raw.fragment_shader));
@@ -88,9 +87,9 @@ public class CMGLRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceChanged(GL10 unused, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
 
-        perspectiveM(projectionMatrix, 0, 45, (float)width / (float)height, 10f, 1f);
+        perspectiveM(projectionMatrix, 0, 45, (float)width / (float)height, 10f, 0f);
         setIdentityM(modelMatrix, 0);
-        translateM(modelMatrix, 0, 0f, 0f, -3f);
+        translateM(modelMatrix, 0, 0f, 0f, -3.5f);
         // rotateM(modelMatrix, 0, -60f, 1f, 0f, 0f);
         final float[] tmp = new float[16];
         multiplyMM(tmp, 0, projectionMatrix, 0, modelMatrix, 0);

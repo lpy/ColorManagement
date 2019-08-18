@@ -60,7 +60,6 @@ public class TextureHelper {
             GLES20.glDeleteTextures(1, textureObjectIds, 0);
             return 0;
         }
-        Log.e(TAG, "bitmap color space " + bitmap.getColorSpace() + " " + bitmap.getConfig());
         {
             int color = bitmap.getPixel(5, 5);
             int red = Color.red(color);
